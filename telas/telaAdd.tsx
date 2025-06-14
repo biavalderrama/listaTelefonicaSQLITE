@@ -11,7 +11,7 @@ export default function AddScreen({ navigation }: { navigation: any }) {
 
   const adicionar = async () => {
     if (novoTelefone.trim() === '' || novoNome.trim() === '') {
-      Alert.alert("Insira dados em todos os campos!");
+      Alert.alert("Todos os campos são obrigatórios.");
       return;
     }
 
@@ -30,21 +30,21 @@ export default function AddScreen({ navigation }: { navigation: any }) {
         style={styles.input}
         value={novoNome}
         onChangeText={setNovoNome}
-        placeholder="Digite o nome do contato..."
-        placeholderTextColor="#ccc"
+        placeholder="Insira o nome do contato."
+        placeholderTextColor="#fff"
       />
 
       <TextInput
         style={styles.input}
         value={novoTelefone}
         onChangeText={setNovoTelefone}
-        placeholder="Digite o telefone do contato..."
-        placeholderTextColor="#ccc"
+        placeholder="Insira o telefone do contato."
+        placeholderTextColor="#fff"
         keyboardType="phone-pad"
       />
 
       <View style={styles.buttonContainer}>
-        <Button onPress={adicionar} title='★ ADICIONAR CONTATO ★' color="#EF88AD" />
+        <Button onPress={adicionar} title='Adicionar' color="#fff" />
       </View>
     </View>
   );
@@ -53,22 +53,32 @@ export default function AddScreen({ navigation }: { navigation: any }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3A0519',
-    padding: 20,
-    justifyContent: 'center',
+    backgroundColor: '#f2f2f2', 
+    paddingHorizontal: 20,
+    paddingTop: 40, 
+    justifyContent: 'flex-start', 
   },
   input: {
-    backgroundColor: '#670D2F',
-    color: 'white',
+    backgroundColor: '#d9d9d9', 
+    color: '#333',              
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
     borderRadius: 8,
     marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#EF88AD',   
   },
   buttonContainer: {
-    marginTop: 20,
-    borderRadius: 8,
-    overflow: 'hidden',
+    backgroundColor: '#EF88AD',
+    borderRadius: 25,
+    paddingVertical: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#EF88AD',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.6,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });

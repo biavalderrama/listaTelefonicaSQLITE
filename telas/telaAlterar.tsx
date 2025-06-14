@@ -28,19 +28,37 @@ export default function UpdateScreen({ navigation, route }: { navigation: any; r
   }, []);
 
   const alterar = async () => {
-    if (novoNome.trim() === '' || novoTelefone.trim() === '') {
-      Alert.alert('Preencha todos os campos!');
+    const nome = novoNome.trim();
+    const telefone = novoTelefone.trim().replace(/\D/g, '');
+
+    if ([nome, telefone].some(campo => campo === '')) {
+      Alert.alert("Todos os campos são obrigatórios.");
       return;
     }
 
-    await db.runAsync(
-      'UPDATE contatos SET nome = ?, telefone = ? WHERE id = ?',
-      [novoNome, novoTelefone, contato_id]
-    );
+    try {
+      const { nome: nomeOriginal, telefone: telefoneOriginal } = (await db.getFirstAsync(
+        'SELECT nome, telefone FROM contatos WHERE id = ?',
+        [contato_id]
+      )) as { nome: string; telefone: string };
 
-    Alert.alert('Contato atualizado com sucesso!');
-    navigation.goBack();
+      if (nome === nomeOriginal && telefone === String(telefoneOriginal)) {
+        Alert.alert("Nenhuma alteração foi feita.");
+        return;
+      }
+
+      await db.runAsync(
+        'UPDATE contatos SET nome = ?, telefone = ? WHERE id = ?',
+        [nome, telefone, contato_id]
+      );
+
+      Alert.alert('Contato alterado com sucesso!');
+      navigation.goBack();
+    } catch (error) {
+      Alert.alert("Erro ao alterar o contato.");
+    }
   };
+
 
   return (
     <View style={styles.container}>
@@ -48,21 +66,21 @@ export default function UpdateScreen({ navigation, route }: { navigation: any; r
         style={styles.input}
         value={novoNome}
         onChangeText={setNovoNome}
-        placeholder="Digite o nome do contato..."
-        placeholderTextColor="#ccc"
+        placeholder="Insira o nome do contato."
+        placeholderTextColor="#fff"
       />
 
       <TextInput
         style={styles.input}
         value={novoTelefone}
         onChangeText={setNovoTelefone}
-        placeholder="Digite o telefone do contato..."
-        placeholderTextColor="#ccc"
+        placeholder="Insira o telefone do contato."
+        placeholderTextColor="#fff"
         keyboardType="phone-pad"
       />
 
       <View style={styles.buttonContainer}>
-        <Button onPress={alterar} title='★ ATUALIZAR CONTATO ★' color="#EF88AD" />
+        <Button onPress={alterar} title='Alterar' color="#fff" />
       </View>
     </View>
   );
@@ -71,22 +89,32 @@ export default function UpdateScreen({ navigation, route }: { navigation: any; r
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3A0519',
-    padding: 20,
-    justifyContent: 'center',
+    backgroundColor: '#f2f2f2', 
+    paddingHorizontal: 20,
+    paddingTop: 40, 
+    justifyContent: 'flex-start', 
   },
   input: {
-    backgroundColor: '#670D2F',
-    color: 'white',
+    backgroundColor: '#d9d9d9', 
+    color: '#333',              
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
     borderRadius: 8,
     marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#EF88AD',   
   },
   buttonContainer: {
-    marginTop: 20,
-    borderRadius: 8,
-    overflow: 'hidden',
+    backgroundColor: '#EF88AD',
+    borderRadius: 25,
+    paddingVertical: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#EF88AD',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.6,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });

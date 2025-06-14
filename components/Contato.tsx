@@ -2,6 +2,7 @@ import { SQLiteDatabase } from "expo-sqlite";
 import _tarefa from "../types/contato";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Linking } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 type _propsContato = {
   dados: _tarefa,
@@ -12,7 +13,7 @@ type _propsContato = {
 
 export default function Contato(props: _propsContato) {
   const alterar = () => {
-    props.navigation.navigate("Alterar Contatos", { contato_id: props.dados.id });
+    props.navigation.navigate("Alterar um contato", { contato_id: props.dados.id });
   };
 
   const excluir = async () => {
@@ -28,16 +29,16 @@ export default function Contato(props: _propsContato) {
     <View style={styles.container}>
       <Text style={styles.nome}>{props.dados.nome}</Text>
       <View style={styles.botoesContainer}>
-        <TouchableOpacity onPress={ligar} style={[styles.botao, styles.ligar]}>
-          <Text style={styles.botaoTexto}>📞</Text>
+        <TouchableOpacity onPress={ligar} style={styles.botoes}>
+          <Ionicons name="call" size={24} color="#A8325A" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={alterar} style={[styles.botao, styles.alterar]}>
-          <Text style={styles.botaoTexto}>✏️</Text>
+        <TouchableOpacity onPress={alterar} style={styles.botoes}>
+          <Ionicons name="pencil" size={24} color="#A8325A" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={excluir} style={[styles.botao, styles.excluir]}>
-          <Text style={styles.botaoTexto}>🗑</Text>
+        <TouchableOpacity onPress={excluir} style={styles.botoes}>
+          <Ionicons name="trash" size={24} color="#A8325A" />
         </TouchableOpacity>
       </View>
     </View>
@@ -46,38 +47,31 @@ export default function Contato(props: _propsContato) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#670D2F',
+    backgroundColor: '#8c8c8c',  
     marginVertical: 8,
     padding: 16,
     borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#EF88AD', 
   },
   nome: {
     fontSize: 18,
-    color: 'white',
+    color: '#fff',  
     marginBottom: 10,
+    fontWeight: '600',
   },
   botoesContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  botao: {
+  botoes: {
     flex: 1,
     alignItems: 'center',
+    backgroundColor: '#f2f2f2',
     paddingVertical: 10,
     marginHorizontal: 5,
     borderRadius: 8,
-  },
-  botaoTexto: {
-    color: 'white',
-    fontSize: 16,
-  },
-  ligar: {
-    backgroundColor: '#EF88AD',
-  },
-  alterar: {
-    backgroundColor: '#FFE17B',
-  },
-  excluir: {
-    backgroundColor: '#A53860',
+    borderWidth: 1.5,
+    borderColor: '#EF88AD',  
   },
 });

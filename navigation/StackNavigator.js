@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import ListScreen from '../screens/ListScreen';
-import AddScreen from '../screens/AddScreen';
-import UpdateScreen from '../screens/UpdateScreen';
+import telaLista from '../telas/telaLista';
+import telaAdd from '../telas/telaAdd';
+import telaAlterar from '../telas/telaAlterar';
 
 const Stack = createNativeStackNavigator();
 
@@ -11,9 +11,9 @@ export default function StackNavigator() {
   return (
     <NavigationContainer>
         <Stack.Navigator>
-            <Stack.Screen name="Lista Contatos" component={ListScreen} />
-            <Stack.Screen name="Adicionar Contatos" component={AddScreen} />
-            <Stack.Screen name="Alterar Contatos" component={UpdateScreen} />
+            <Stack.Screen name="Lista dos contatos" component={telaLista} />
+            <Stack.Screen name="Adicionar um contato" component={telaAdd} />
+            <Stack.Screen name="Alterar um contato" component={telaAlterar} />
         </Stack.Navigator>
     </NavigationContainer>
   );
